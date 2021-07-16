@@ -39,7 +39,7 @@
     <script>
 
         var video = document.getElementById('player');
-        const socket = io('http://localhost:3000')
+        const socket = io('/')
         socket.on('connection')
 
         socket.on('message', (data) => {
