@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.3/socket.io.min.js" integrity="sha512-fB746S+jyTdN2LSWbYSGP2amFYId226wpOeV4ApumcDpIttPxvk1ZPOgnwqwQziRAtZkiFJVx9F64GLAtoIlCQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <title>Control video remotely using NodeJS and Socket.IO</title>
+</head>
+<body>
+    <h3 class="p-5"> Control Video Remotely using NodeJS and Socket.IO
+        <small class="text-muted">with an option to change backgroundColor.</small>
+    </h3> 
+    <hr>
+    <div class="input-group mb-3 mx-auto pt-3" style="max-width: 80%;">
+        <input type="text" class="form-control colorInput" placeholder="Color Hex code or Name" aria-label="Color Hex code or Name" aria-describedby="button-addon2">
+
+        <button class="btn btn-outline-primary" type="button" id="button-addon2" onclick="sendMessage()">Change color</button>
+    </div>
+    <hr>
+    <div class="d-flex p-2 bd-highlight">
+        <video class="mx-auto" id="player" width="400">
+        <source src="video" type="video/mp4">
+        Your browser does not support HTML video.
+        </video>
+    </div>
+
+    <div class="d-flex p-2 bd-highlight">
+        <input type="button" class="btn btn-primary mx-auto" value="Play" id="playbtn" onclick="sendBtn('Play')">
+        <input type="button" class="btn btn-danger mx-auto" value="Pause" id="pausebtn" onclick="sendBtn('Pause')">
+    </div>
+    <footer class="footer mt-auto py-3 bg-light">
+        <div class="container">
+          <span class="text-muted">View source on <a href="#" class="link-primary">Github</a> by <a href="https://www.instagram.com/naman_khare/" class="link-danger">Naman Khare</a></span>
+        </div>
+      </footer>
+    <script>
+
+        var video = document.getElementById('player');
+        const socket = io('http://localhost:3000')
+        socket.on('connection')
+
+        socket.on('message', (data) => {
+            if (data == "Play") {
+                video.play()
+            } else if (data == "Pause") {
+                video.pause()
+            } else {
+                document.querySelector('body').style.backgroundColor = data;
+            }
+        })
+
+        function sendBtn(event) {
+            if (event == "Play") {
+                video.play()
+            } else {
+                video.pause()
+            }
+            socket.emit('message', event)
+        }
+        const sendMessage = () => {
+            const colorInput = document.querySelector('.colorInput').value
+
+            socket.emit('message', colorInput)
+        }
+    </script>
+</body>
+</html>
