@@ -1,10 +1,13 @@
-# control-video-remotely-using-nodejs-and-socket.io
+# Control Video Remotely using NodeJS and Socket.IO
 
 ## Description
 Control Video Remotely using NodeJS and Socket.IO with an option to change background Color as well.
 
 ## Example
+### Image: 
 ![Control video remotely Image](example/demo.png)
+
+### Gif: 
 ![Control video remotely Gif](example/demogif.gif)
 
 ## Installation 
