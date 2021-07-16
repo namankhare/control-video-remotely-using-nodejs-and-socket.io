@@ -5,6 +5,7 @@ const server = require('http').createServer(app)
 const io = require('socket.io')(server)
 const router  = express.Router();
 const fs = require('fs');
+const port = process.env.PORT || 3000;
 
 app.use(cors())
 app.use(router);
@@ -58,8 +59,8 @@ fs.stat(path, (err, stat) => {
 });
 
 
-server.listen(3000, () => {
-    console.log("Server running at, http://localhost:3000")
+server.listen(port, () => {
+    console.log(`Server running at port ${port}`)
 })
 
 io.on('connection', (socket) => {
